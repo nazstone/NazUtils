@@ -1,10 +1,8 @@
 import React, { useRef, useState } from 'react';
 import ErrorFormat from '../components/error.format';
-import { tab } from '../styles/common';
+import { buttonBar, tab } from '../styles/common';
 // eslint-disable-next-line no-undef
 const { ipcRenderer } = window.require('electron');
-
-const buttonBar = 'h-12 mb-2 flex space-x-2';
 
 const kinds = [
   { name: 'base64', label: 'Base64' },

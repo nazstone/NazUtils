@@ -2,6 +2,7 @@ const encodeDecode = require('./encode.decode');
 const { extractErrorMsg } = require('./error.util');
 const { format } = require('./format');
 const { signPayload, extractHeaderPayloadSignature, mapAlgo } = require('./jwt');
+const loremIpsum = require('./loremipsum');
 
 const map = (key, input, kind) => {
   try {
@@ -19,6 +20,8 @@ const map = (key, input, kind) => {
       }
     } else if (key === 'encode' || key === 'decode') {
       result = encodeDecode(key === 'encode', kind, input);
+    } else if (key === 'lorem') {
+      result = loremIpsum(kind, input);
     }
     return {
       result,

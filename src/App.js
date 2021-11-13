@@ -3,6 +3,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import EncodeDecodeView from './pages/encode.decode.view';
 import FormatterView from './pages/prettier.view';
 import JWTView from './pages/jwt.view';
+import LoremIpsumView from './pages/lorem.ipsum';
 
 const views = [
   {
@@ -20,6 +21,11 @@ const views = [
     link: '/jwt',
     name: 'JWT Tool',
     element: <JWTView />,
+  },
+  {
+    link: '/lorem',
+    name: 'Lorem Ipsum',
+    element: <LoremIpsumView />,
   },
 ];
 
