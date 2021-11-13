@@ -1,0 +1,15 @@
+{
+  "extends": ["airbnb", "plugin:prettier/recommended", "plugin:react/recommended", "plugin:react-hooks/recommended"],
+  "plugins": ["prettier", "react"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "jsx-a11y/no-static-element-interactions": ["warn"],
+    "jsx-a11y/click-events-have-key-events": ["warn"]
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  }
+}
