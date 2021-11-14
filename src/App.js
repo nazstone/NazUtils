@@ -32,7 +32,7 @@ const views = [
 function App() {
   return (
     <div className="bg-gray-300 h-full flex">
-      <div className="bg-gray-300 h-full flex flex-col w-96 p-2">
+      <div className="bg-gray-300 h-full flex flex-col min-w-96 w-96 p-2">
         {views.map((v) => (
           <Link key={v.link} to={v.link}>
             {v.name}
