@@ -11,11 +11,10 @@ The project is a kind of alternative of other proprietary apps (like DevUtils.ap
 
 # TODO
 
+- add loader
 - style
   - textarea: highight
-- decode/encode:
-  - ?
-- faker
+- regex
 - preview?:
   - html
   - markdown
