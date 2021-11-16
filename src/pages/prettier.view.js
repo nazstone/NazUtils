@@ -1,9 +1,8 @@
+/* eslint-disable no-undef */
 import React, { useState } from 'react';
 
 import ErrorFormat from '../components/error.format';
 import { headerBar, tab, title } from '../styles/common';
-// eslint-disable-next-line no-undef
-const { ipcRenderer } = window.require('electron');
 
 const formats = [
   { label: 'JavaScript', kind: 'babel', placeholder: 'const hello = () => { console.log("world"); }' },
@@ -40,7 +39,7 @@ const FormatterView = () => {
   const [format, setFormatter] = useState(formats[0]);
 
   const clickCompute = () => {
-    const returned = ipcRenderer.sendSync('query', {
+    const returned = window.electron.ipcRenderer.sendSync('query', {
       key: 'format',
       kind: format.kind,
       // eslint-disable-next-line no-undef

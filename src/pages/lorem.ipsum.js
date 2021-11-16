@@ -1,15 +1,14 @@
+/* eslint-disable no-undef */
 import React, { useState } from 'react';
 import ErrorFormat from '../components/error.format';
 import { buttonBar } from '../styles/common';
-// eslint-disable-next-line no-undef
-const { ipcRenderer } = window.require('electron');
 
 const LoremIpsumView = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const [loremIpsum, setLoremIpsum] = useState('');
 
   const sendIpcLorem = (type = 'sentence') => {
-    const { result, error } = ipcRenderer.sendSync('query', {
+    const { result, error } = window.electron.ipcRenderer.sendSync('query', {
       key: 'lorem',
       kind: type,
       value: 3,

@@ -1,9 +1,7 @@
+/* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 
 import ErrorFormat from '../components/error.format';
-
-// eslint-disable-next-line no-undef
-const { ipcRenderer } = window.require('electron');
 
 // default jwtObject
 const jwtObjDefault = {
@@ -42,7 +40,7 @@ const JWTView = () => {
     }
 
     const secretKey = (algFound.secret && jwtObj.signature) || jwtObj.public;
-    const res = ipcRenderer.sendSync('query', {
+    const res = window.electron.ipcRenderer.sendSync('query', {
       key: 'jwt',
       kind: 'extract',
       value: JSON.stringify({
@@ -76,7 +74,7 @@ const JWTView = () => {
     }
 
     // sign the data to have a jwt string
-    const res = ipcRenderer.sendSync('query', {
+    const res = window.electron.ipcRenderer.sendSync('query', {
       key: 'jwt',
       kind: 'sign',
       value: JSON.stringify({
@@ -172,7 +170,7 @@ const JWTView = () => {
     const jwtHeaderTmp = { ...JSON.parse(jwtObj.header), alg: algFoundTmp.name };
 
     // pretty print
-    const returned = ipcRenderer.sendSync('query', {
+    const returned = window.electron.ipcRenderer.sendSync('query', {
       key: 'format',
       kind: 'json',
       value: JSON.stringify(jwtHeaderTmp),
@@ -218,7 +216,7 @@ const JWTView = () => {
   }, [jwtString]);
 
   useEffect(() => {
-    const res = ipcRenderer.sendSync('query', {
+    const res = window.electron.ipcRenderer.sendSync('query', {
       key: 'jwt',
       kind: 'alg',
     });

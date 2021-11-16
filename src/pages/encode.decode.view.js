@@ -1,8 +1,7 @@
+/* eslint-disable no-undef */
 import React, { useRef, useState } from 'react';
 import ErrorFormat from '../components/error.format';
 import { buttonBar, tab } from '../styles/common';
-// eslint-disable-next-line no-undef
-const { ipcRenderer } = window.require('electron');
 
 const kinds = [
   { name: 'base64', label: 'Base64' },
@@ -21,7 +20,7 @@ const EncodeDecodeView = () => {
 
   const encodeAction = () => {
     setTextToEncode(encodeRef.current.value);
-    const { result, error } = ipcRenderer.sendSync('query', {
+    const { result, error } = window.electron.ipcRenderer.sendSync('query', {
       key: 'encode',
       kind: kind.name,
       value: encodeRef.current.value,
@@ -35,7 +34,7 @@ const EncodeDecodeView = () => {
   };
   const decodeAction = () => {
     setTextToDecode(decodeRef.current.value);
-    const { result, error } = ipcRenderer.sendSync('query', {
+    const { result, error } = window.electron.ipcRenderer.sendSync('query', {
       key: 'decode',
       kind: kind.name,
       value: decodeRef.current.value,
