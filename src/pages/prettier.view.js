@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 import ErrorFormat from '../components/error.format';
-import { headerBar, tab, title } from '../styles/common';
+import { headerBar, title } from '../styles/common';
 
 const formats = [
   { label: 'JavaScript', kind: 'babel', placeholder: 'const hello = () => { console.log("world"); }' },
@@ -60,54 +60,53 @@ const FormatterView = () => {
     const arrRes = formats.filter((f) => f.kind === e.target.value);
     if (arrRes && arrRes.length > 0) {
       setFormatter(arrRes[0]);
-      clickClear();
+      setResult();
+      setError();
     }
   };
 
   return (
     <div className="flex flex-grow h-full flex-col">
-      <div className="flex flex-col flex-grow">
-        <div className={`${tab} bg-green-300`}>
-          <div className={headerBar}>
-            <div className="flex flex-1 items-center">
-              <button type="button" className="btn mr-3" onClick={clickCompute}>
-                Compute
-              </button>
-              <select className="btn mr-3" id="formatKind" onChange={selectOnChange}>
-                {formats.map((f) => (
-                  <option key={f.kind} value={f.kind}>
-                    {f.label}
-                  </option>
-                ))}
-              </select>
-              <button type="button" className="btn" onClick={clickClear}>
-                Clear
-              </button>
-            </div>
-            <div className={title}>Input to format</div>
+      <div className="flex flex-col p-2 flex-1 bg-green-300">
+        <div className={headerBar}>
+          <div className="flex flex-1 items-center">
+            <button type="button" className="btn mr-3" onClick={clickCompute}>
+              Compute
+            </button>
+            <select className="btn mr-3" id="formatKind" onChange={selectOnChange}>
+              {formats.map((f) => (
+                <option key={f.kind} value={f.kind}>
+                  {f.label}
+                </option>
+              ))}
+            </select>
+            <button type="button" className="btn" onClick={clickClear}>
+              Clear
+            </button>
           </div>
-          <ErrorFormat error={error} setError={setError} />
-          <textarea className="h-full v-full p-2" placeholder={format.placeholder} id="textareaInput" />
+          <div className={title}>Input to format</div>
         </div>
-        <div className={`${tab} bg-blue-300`}>
-          <div className={headerBar}>
-            <div className={`${title} flex-1`}>{format.label} formatted</div>
-            <div className="flex items-center">
-              <button
-                type="button"
-                className="btn"
-                onClick={() => {
-                  // eslint-disable-next-line no-undef
-                  navigator.clipboard.writeText(result);
-                }}
-              >
-                Copy
-              </button>
-            </div>
+        <ErrorFormat error={error} setError={setError} />
+        <textarea className="flex-1 p-2" placeholder={format.placeholder} id="textareaInput" />
+      </div>
+      <div className="bg-blue-300 flex flex-col p-2 flex-1 min-h-0">
+        <div className={headerBar}>
+          <div className={`${title} flex-1`}>{format.label} formatted</div>
+          <div className="flex items-center">
+            <button
+              type="button"
+              className="btn"
+              onClick={() => {
+                // eslint-disable-next-line no-undef
+                navigator.clipboard.writeText(result);
+              }}
+            >
+              Copy
+            </button>
           </div>
-          <div className="bg-white h-full v-full p-2">
-            <pre>{result}</pre>
-          </div>
+        </div>
+        <div className="bg-white flex-1 p-2 overflow-auto">
+          <pre className="whitespace-pre-wrap break-normal">{result}</pre>
         </div>
       </div>
     </div>
