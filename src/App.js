@@ -1,16 +1,15 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import EncodeDecodeView from './pages/encode.decode.view';
-import FormatterView from './pages/prettier.view';
+import PrettierView from './pages/prettier.view';
 import JWTView from './pages/jwt.view';
 import LoremIpsumView from './pages/lorem.ipsum';
 
 const views = [
   {
-    link: '/',
-    default: true,
+    link: '/formatter',
     name: 'Formatter',
-    element: <FormatterView />,
+    element: <PrettierView />,
   },
   {
     link: '/encode',
@@ -18,6 +17,7 @@ const views = [
     element: <EncodeDecodeView />,
   },
   {
+    default: true,
     link: '/jwt',
     name: 'JWT Tool',
     element: <JWTView />,
