@@ -8,6 +8,7 @@ hljs.registerLanguage('scss', require('highlight.js/lib/languages/scss'));
 hljs.registerLanguage('less', require('highlight.js/lib/languages/less'));
 hljs.registerLanguage('markdown', require('highlight.js/lib/languages/markdown'));
 hljs.registerLanguage('babel', require('highlight.js/lib/languages/javascript'));
+hljs.registerLanguage('sql', require('highlight.js/lib/languages/sql'));
 
 const highlight = (value, kind) => {
   try {
