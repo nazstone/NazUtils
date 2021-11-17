@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import ErrorFormat from '../components/error.format';
 import { headerBar, title } from '../styles/common';
 
+import 'highlight.js/styles/stackoverflow-light.css';
+
 const formats = [
   { label: 'JavaScript', kind: 'babel', placeholder: 'const hello = () => { console.log("world"); }' },
   { label: 'JSON', kind: 'json', placeholder: '{"json": true}' },
@@ -34,6 +36,7 @@ const formats = [
 ];
 
 const FormatterView = () => {
+  const [minus, setMinus] = useState(false);
   const [result, setResult] = useState('');
   const [error, setError] = useState('');
   const [format, setFormatter] = useState(formats[0]);
@@ -65,9 +68,14 @@ const FormatterView = () => {
     }
   };
 
+  const onClickReduce = () => {
+    setMinus(!minus);
+  };
+
+  const divTop = `flex flex-col p-2 bg-green-300 ${minus ? 'h-40' : 'flex-1'}`;
   return (
     <div className="flex flex-grow h-full flex-col">
-      <div className="flex flex-col p-2 flex-1 bg-green-300">
+      <div className={divTop}>
         <div className={headerBar}>
           <div className="flex flex-1 items-center">
             <button type="button" className="btn mr-3" onClick={clickCompute}>
@@ -84,6 +92,9 @@ const FormatterView = () => {
               Clear
             </button>
           </div>
+          <button className="btn w-12" type="button" onClick={onClickReduce}>
+            {minus ? '+' : '-'}
+          </button>
           <div className={title}>Input to format</div>
         </div>
         <ErrorFormat error={error} setError={setError} />
@@ -107,7 +118,7 @@ const FormatterView = () => {
           <div className={title}>{format.label} formatted</div>
         </div>
         <div className="bg-white flex-1 p-2 overflow-auto">
-          <pre className="whitespace-pre-wrap break-normal">{result}</pre>
+          <p className="whitespace-pre-wrap break-normal" dangerouslySetInnerHTML={{ __html: result }} />
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+const highlight = require('./highlight');
 const encodeDecode = require('./encode.decode');
 const { extractErrorMsg } = require('./error.util');
 const { format } = require('./format');
@@ -9,6 +10,7 @@ const map = (key, input, kind) => {
     let result;
     if (key === 'format' && kind) {
       result = format(kind, input);
+      result = highlight(result, kind);
     } else if (key === 'jwt') {
       if (kind === 'sign') {
         const obj = JSON.parse(input);

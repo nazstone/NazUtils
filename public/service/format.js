@@ -8,7 +8,7 @@ const format = (kind, input) => {
   if (prettierFormat.includes(kind)) {
     return prettier.format(input, {
       parser: kind,
-      printWidth: kind === 'babel' ? 80 : 1,
+      printWidth: 80,
     });
   }
   if (kind === 'xml') {
