@@ -11,6 +11,7 @@ The project is a kind of alternative of other proprietary apps (like DevUtils.ap
 
 # TODO
 
+- left panel improve
 - add loader
 - style
   - textarea: highight
