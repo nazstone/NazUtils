@@ -8,10 +8,11 @@ const LoremIpsumView = () => {
   const [loremIpsum, setLoremIpsum] = useState('');
 
   const sendIpcLorem = (type = 'sentence') => {
+    const number = document.getElementById('number').value;
     const { result, error } = window.electron.ipcRenderer.sendSync('query', {
       key: 'lorem',
       kind: type,
-      value: 3,
+      value: number,
     });
     if (error) {
       setErrorMsg(error);
@@ -45,6 +46,9 @@ const LoremIpsumView = () => {
           <button type="button" className="btn" onClick={onClickParagraph}>
             Paragraph
           </button>
+          <div className="self-center">
+            Number of: <input id="number" type="number" max="100" className="w-12" defaultValue="3" />
+          </div>
           <div className="flex-grow" />
           <button type="button" className="btn" onClick={onClickClear}>
             Clear

@@ -19,10 +19,14 @@ const paragraph = (num = 3) => {
 };
 
 const loremIpsum = (kind, num = 3) => {
-  if (kind === 'paragraph') {
-    return paragraph(num);
+  let numb = Number(num);
+  if (numb > 100) {
+    numb = 100;
   }
-  return sentence(num);
+  if (kind === 'paragraph') {
+    return paragraph(numb);
+  }
+  return sentence(numb);
 };
 
 module.exports = loremIpsum;

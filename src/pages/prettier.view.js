@@ -91,8 +91,7 @@ const FormatterView = () => {
       </div>
       <div className="bg-blue-300 flex flex-col p-2 flex-1 min-h-0">
         <div className={headerBar}>
-          <div className={`${title} flex-1`}>{format.label} formatted</div>
-          <div className="flex items-center">
+          <div className="flex ">
             <button
               type="button"
               className="btn"
@@ -104,6 +103,8 @@ const FormatterView = () => {
               Copy
             </button>
           </div>
+          <div className="flex-1">&nbsp;</div>
+          <div className={title}>{format.label} formatted</div>
         </div>
         <div className="bg-white flex-1 p-2 overflow-auto">
           <pre className="whitespace-pre-wrap break-normal">{result}</pre>
