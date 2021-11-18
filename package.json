@@ -69,6 +69,7 @@
     "xml-formatter": "^2.5.1"
   },
   "scripts": {
+    "postinstall": "husky install",
     "lint": "eslint src public",
     "react-start": "craco start",
     "react-build": "craco build",
@@ -96,10 +97,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   }
 }
