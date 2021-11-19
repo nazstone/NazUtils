@@ -4,12 +4,18 @@ import EncodeDecodeView from './pages/encode.decode.view';
 import PrettierView from './pages/prettier.view';
 import JWTView from './pages/jwt.view';
 import LoremIpsumView from './pages/lorem.ipsum';
+import SwaggerView from './pages/swagger.view';
 
 const views = [
   {
     link: '/formatter',
     name: 'Formatter',
     element: <PrettierView />,
+  },
+  {
+    link: '/swagger',
+    name: 'Swagger',
+    element: <SwaggerView />,
   },
   {
     link: '/encode',

@@ -65,6 +65,7 @@
     "react-router-dom": "^6.0.0",
     "react-scripts": "4.0.3",
     "sql-formatter": "^4.0.2",
+    "swagger-ui-react": "^4.1.0",
     "web-vitals": "^1.0.1",
     "xml-formatter": "^2.5.1"
   },
