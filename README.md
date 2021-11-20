@@ -11,12 +11,11 @@ The project is a kind of alternative of other proprietary apps (like DevUtils.ap
 
 # TODO
 
-- rimraf
 - left panel improve
 - add loader
 - style
   - textarea: highight
-- regex
+- regex?
 - preview?:
   - html
   - markdown
