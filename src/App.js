@@ -9,7 +9,7 @@ import AboutView from './pages/about.view';
 
 const views = [
   {
-    link: '/formatter',
+    link: '/',
     name: 'Formatter',
     element: <PrettierView />,
   },
@@ -61,13 +61,19 @@ function App() {
     setHideMenu(!hideMenu);
   };
 
-  const menuStyle = `bg-gray-300 h-full flex flex-col relative ${(!hideMenu && 'min-w-48 w-48') || 'min-w-10 w-10'}`;
+  const menuStyle = `bg-gray-100 h-full flex flex-col relative ${(!hideMenu && 'min-w-48 w-48') || 'min-w-0 w-0'}`;
 
   return (
-    <div className="bg-gray-300 h-full flex">
+    <div className="bg-gray-100 h-full flex">
       <div className={menuStyle}>
-        <button type="button" className="btn w-10 absolute right-0" onClick={onClickHide}>
-          {(hideMenu && '<<') || '>>'}
+        <button
+          type="button"
+          className={`btn w-6 px-1 absolute bg-green-300 hover:bg-green-700 focus:ring-green-500 ${
+            (hideMenu && '-right-4 top-24 z-10') || '-right-1 z-0'
+          }`}
+          onClick={onClickHide}
+        >
+          {(hideMenu && <>&rsaquo;</>) || <>&lsaquo;</>}
         </button>
         {!hideMenu &&
           views.map((v) => (
@@ -76,11 +82,13 @@ function App() {
             </CustomLink>
           ))}
       </div>
-      <Routes>
-        {views.map((v) => (
-          <Route key={v.link} default={v.default} path={v.link} element={v.element} />
-        ))}
-      </Routes>
+      <div className={`flex-1 h-full bg-green-300 ${!hideMenu && 'z-10'}`}>
+        <Routes>
+          {views.map((v) => (
+            <Route key={v.link} default={v.default} path={v.link} element={v.element} />
+          ))}
+        </Routes>
+      </div>
     </div>
   );
 }

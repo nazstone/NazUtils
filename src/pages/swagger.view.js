@@ -17,8 +17,8 @@ const SwaggerView = () => {
   };
 
   return (
-    <div className="flex flex-col bg-gray-100 w-full">
-      <div className="flex w-full p-2">
+    <div className="flex flex-col bg-gray-100 w-full h-full">
+      <div className="flex w-full p-2 bg-green-300">
         <span className="pr-2 self-center">Swagger URL:</span>
         <input
           className="flex-1 mr-2"

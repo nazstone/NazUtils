@@ -246,8 +246,8 @@ const JWTView = () => {
   }
 
   return (
-    <div className="flex flex-grow v-full">
-      <div className="bg-yellow-300 flex-1 flex flex-col v-full p-2">
+    <div className="flex flex-grow v-full h-full">
+      <div className="flex-1 flex flex-col v-full p-2">
         <div className="pb-2">
           <button type="button" className="btn mr-3" onClick={onClickClear}>
             Clear
@@ -277,7 +277,7 @@ const JWTView = () => {
           <h1>Header</h1>
           <textarea onChange={onChangeHeader} value={jwtObj.header} className="w-full flex-1" />
         </div>
-        <div className="bg-green-200 flex-1 p-2 flex flex-col">
+        <div className="bg-yellow-200 flex-1 p-2 flex flex-col">
           <h1>Payload</h1>
           <textarea onChange={onChangePayload} value={jwtObj.payload} className="w-full flex-1" />
         </div>

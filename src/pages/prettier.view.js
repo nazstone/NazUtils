@@ -72,7 +72,7 @@ const FormatterView = () => {
     setMinus(!minus);
   };
 
-  const divTop = `flex flex-col p-2 bg-green-300 ${minus ? 'h-40' : 'flex-1'}`;
+  const divTop = `flex flex-col p-2 ${minus ? 'h-40' : 'flex-1'}`;
   return (
     <div className="flex flex-grow h-full flex-col">
       <div className={divTop}>
