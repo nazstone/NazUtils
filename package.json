@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "author": "nazstone@gmail.com",
-  "description": "Application for developer. Formatter, Decode/encode...",
+  "description": "Toolbox for web developer",
   "license": "MIT",
   "build": {
     "appId": "org.nazstone.nazutil",
@@ -45,6 +45,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^7.0.4",
     "postcss": "^7.0.39",
+    "rimraf": "^3.0.2",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
     "wait-on": "^6.0.0"
   },
@@ -71,6 +72,7 @@
   },
   "scripts": {
     "postinstall": "husky install",
+    "cleanup": "rimraf build dist",
     "lint": "eslint src public",
     "react-start": "craco start",
     "react-build": "craco build",
@@ -78,7 +80,7 @@
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
     "release": "yarn react-build && electron-builder",
-    "build": "yarn react-build && yarn electron-build",
+    "build": "yarn cleanup && yarn react-build && yarn electron-build",
     "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "eslintConfig": {
