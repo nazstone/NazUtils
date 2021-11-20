@@ -19,7 +19,7 @@ const mapAlgo = {
 };
 
 const prettier = (e) => {
-  return format('json', JSON.stringify(e));
+  return format('json', JSON.stringify(e), 1);
 };
 
 const extractHeaderPayloadSignature = (val) => {

@@ -4,11 +4,11 @@ const { format: sqlFormatter } = require('sql-formatter');
 
 const prettierFormat = ['json', 'html', 'yaml', 'css', 'scss', 'less', 'graphql', 'markdown', 'babel'];
 
-const format = (kind, input) => {
+const format = (kind, input, col = 80) => {
   if (prettierFormat.includes(kind)) {
     return prettier.format(input, {
       parser: kind,
-      printWidth: 80,
+      printWidth: col,
     });
   }
   if (kind === 'xml') {
