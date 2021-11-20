@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, Link, useMatch, useResolvedPath } from 'react-router-dom';
 import EncodeDecodeView from './pages/encode.decode.view';
 import PrettierView from './pages/prettier.view';
@@ -42,7 +42,7 @@ const views = [
 ];
 
 // eslint-disable-next-line react/prop-types
-function CustomLink({ children, to, key }) {
+const CustomLink = ({ children, to, key }) => {
   const resolved = useResolvedPath(to);
   const match = useMatch({ path: resolved.pathname, end: true });
 
@@ -53,17 +53,28 @@ function CustomLink({ children, to, key }) {
       </Link>
     </div>
   );
-}
+};
 
 function App() {
+  const [hideMenu, setHideMenu] = useState(false);
+  const onClickHide = () => {
+    setHideMenu(!hideMenu);
+  };
+
+  const menuStyle = `bg-gray-300 h-full flex flex-col relative ${(!hideMenu && 'min-w-48 w-48') || 'min-w-10 w-10'}`;
+
   return (
     <div className="bg-gray-300 h-full flex">
-      <div className="bg-gray-300 h-full flex flex-col min-w-96 w-96">
-        {views.map((v) => (
-          <CustomLink key={v.link} to={v.link}>
-            {v.name}
-          </CustomLink>
-        ))}
+      <div className={menuStyle}>
+        <button type="button" className="btn w-10 absolute right-0" onClick={onClickHide}>
+          {(hideMenu && '<<') || '>>'}
+        </button>
+        {!hideMenu &&
+          views.map((v) => (
+            <CustomLink key={v.link} to={v.link}>
+              {v.name}
+            </CustomLink>
+          ))}
       </div>
       <Routes>
         {views.map((v) => (
