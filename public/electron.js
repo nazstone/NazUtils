@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const electron = require('electron');
-const { ipcMain } = require('electron');
+const { ipcMain, Menu } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
 
@@ -26,6 +26,7 @@ function createWindow() {
     },
     autoHideMenuBar: true,
   });
+  Menu.setApplicationMenu(null);
 
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, './index.html')}`);
 
