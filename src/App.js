@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useMatch, useResolvedPath } from 'react-router-dom';
 import EncodeDecodeView from './pages/encode.decode.view';
 import PrettierView from './pages/prettier.view';
 import JWTView from './pages/jwt.view';
@@ -41,14 +41,28 @@ const views = [
   },
 ];
 
+// eslint-disable-next-line react/prop-types
+function CustomLink({ children, to, key }) {
+  const resolved = useResolvedPath(to);
+  const match = useMatch({ path: resolved.pathname, end: true });
+
+  return (
+    <div key={key} className={`${match ? 'bg-green-100' : ''} px-2`}>
+      <Link className={match ? 'no-underline text-xl font-medium' : 'no-underline text-lg'} to={to}>
+        {children}
+      </Link>
+    </div>
+  );
+}
+
 function App() {
   return (
     <div className="bg-gray-300 h-full flex">
-      <div className="bg-gray-300 h-full flex flex-col min-w-96 w-96 p-2">
+      <div className="bg-gray-300 h-full flex flex-col min-w-96 w-96">
         {views.map((v) => (
-          <Link key={v.link} to={v.link}>
+          <CustomLink key={v.link} to={v.link}>
             {v.name}
-          </Link>
+          </CustomLink>
         ))}
       </div>
       <Routes>
