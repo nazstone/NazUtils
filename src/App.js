@@ -5,6 +5,7 @@ import PrettierView from './pages/prettier.view';
 import JWTView from './pages/jwt.view';
 import LoremIpsumView from './pages/lorem.ipsum';
 import SwaggerView from './pages/swagger.view';
+import AboutView from './pages/about.view';
 
 const views = [
   {
@@ -32,6 +33,11 @@ const views = [
     link: '/lorem',
     name: 'Lorem Ipsum',
     element: <LoremIpsumView />,
+  },
+  {
+    link: '/about',
+    name: 'About',
+    element: <AboutView />,
   },
 ];
 
