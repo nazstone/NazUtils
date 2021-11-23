@@ -47,6 +47,9 @@ const FormatterView = () => {
       kind: format.kind,
       // eslint-disable-next-line no-undef
       value: document.getElementById('textareaInput').value,
+      extra: {
+        highlight: true,
+      },
     });
 
     setResult(returned.result);

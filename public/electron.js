@@ -56,5 +56,5 @@ app.on('activate', () => {
 
 ipcMain.on('query', (event, arg) => {
   // eslint-disable-next-line no-param-reassign
-  event.returnValue = service(arg.key, arg.value, arg.kind);
+  event.returnValue = service(arg.key, arg.value, arg.kind, arg.extra);
 });

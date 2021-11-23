@@ -5,12 +5,14 @@ const { format } = require('./format');
 const { signPayload, extractHeaderPayloadSignature, mapAlgo } = require('./jwt');
 const loremIpsum = require('./loremipsum');
 
-const map = (key, input, kind) => {
+const map = (key, input, kind, extra) => {
   try {
     let result;
     if (key === 'format' && kind) {
       result = format(kind, input);
-      result = highlight(result, kind);
+      if (extra && extra.highlight) {
+        result = highlight(result, kind);
+      }
     } else if (key === 'jwt') {
       if (kind === 'sign') {
         const obj = JSON.parse(input);
