@@ -13,7 +13,7 @@ let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    icon: `${__dirname}/swiss-knife.png`,
+    icon: `${__dirname}/../icon.png`,
     width: 1400,
     height: 880,
     webPreferences: {
