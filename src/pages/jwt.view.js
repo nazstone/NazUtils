@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
+import Editor from '../components/editor';
 
 import ErrorFormat from '../components/error.format';
 
@@ -39,7 +40,7 @@ const JWTView = () => {
       return;
     }
 
-    const secretKey = (algFound.secret && jwtObj.signature) || jwtObj.public;
+    const secretKey = (algFound && algFound.secret && jwtObj.signature) || jwtObj.public;
     const res = window.electron.ipcRenderer.sendSync('query', {
       key: 'jwt',
       kind: 'extract',
@@ -74,16 +75,23 @@ const JWTView = () => {
     }
 
     // sign the data to have a jwt string
-    const res = window.electron.ipcRenderer.sendSync('query', {
-      key: 'jwt',
-      kind: 'sign',
-      value: JSON.stringify({
-        payload: (jwtObj.payload && JSON.parse(jwtObj.payload)) || {},
-        header: jwtObj.header,
-        secret: (algFound.secret && jwtObj.signature) || null,
-        privateKey: (!algFound.secret && jwtObj.private) || null,
-      }),
-    });
+    let res;
+    try {
+      res = window.electron.ipcRenderer.sendSync('query', {
+        key: 'jwt',
+        kind: 'sign',
+        value: JSON.stringify({
+          payload: (jwtObj.payload && JSON.parse(jwtObj.payload)) || {},
+          header: jwtObj.header,
+          secret: (algFound.secret && jwtObj.signature) || null,
+          privateKey: (!algFound.secret && jwtObj.private) || null,
+        }),
+      });
+    } catch (err) {
+      res = {
+        error: err.message,
+      };
+    }
 
     if (res.error) {
       setError(res.error);
@@ -174,6 +182,9 @@ const JWTView = () => {
       key: 'format',
       kind: 'json',
       value: JSON.stringify(jwtHeaderTmp),
+      extra: {
+        indent: 1,
+      },
     });
 
     if (returned.error) {
@@ -195,6 +206,13 @@ const JWTView = () => {
   const onClickCopy = () => {
     // eslint-disable-next-line no-undef
     navigator.clipboard.writeText(jwtValue);
+  };
+
+  const onClickSample = () => {
+    setJwtString({
+      jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0YWRhIiwibmFtZSI6InRhZGEifQ.B5h2p7JIzod1opXE51wMPu2v5k5nmB1NgEugkzKtZgM',
+      dirty: true,
+    });
   };
 
   useEffect(() => {
@@ -255,19 +273,22 @@ const JWTView = () => {
           <button type="button" className="btn mr-3" onClick={onClickCopy}>
             Copy
           </button>
-          <select type="button" className="btn" onChange={onChangeAlgo}>
+          <select type="button" className="btn mr-3" onChange={onChangeAlgo}>
             {Object.keys(alg).map((e) => (
               <option key={e} value={e} selected={(algFound && algFound.name === e) || ''}>
                 {e}
               </option>
             ))}
           </select>
+          <button type="button" className="btn" onClick={onClickSample}>
+            Sample
+          </button>
         </div>
         <ErrorFormat error={error} setError={setError} />
-
-        <div className="h-full flex">
+        {/* <div className="h-full flex">
           <textarea className="w-full flex1" height="100%" onChange={onChangeJwt} value={jwtString.jwt} />
-        </div>
+        </div> */}
+        <Editor className="w-full flex-1" onChange={onChangeJwt} value={jwtString.jwt} />
         <span className={jwtObj.verified ? 'text-green-600' : 'text-red-600'}>
           {jwtObj.verified ? 'Valid signature' : 'Invalid signature'}
         </span>
@@ -281,7 +302,7 @@ const JWTView = () => {
           <h1>Payload</h1>
           <textarea onChange={onChangePayload} value={jwtObj.payload} className="w-full flex-1" />
         </div>
-        <div className="bg-blue-200 flex-1">
+        <div className="bg-blue-200 flex-1 p-2">
           <h1>Signature</h1>
           <pre>
             {`

@@ -36,3 +36,9 @@ body {
 .cm-jwtheader {
   color: red;
 }
+.editor_outline {
+  outline: currentcolor none medium;
+}
+.breakWords2 {
+  word-wrap: break-word;
+}
