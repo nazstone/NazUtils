@@ -9,9 +9,13 @@ const map = (key, input, kind, extra) => {
   try {
     let result;
     if (key === 'format' && kind) {
-      result = format(kind, input);
       if (extra && extra.highlight) {
+        result = format(kind, input);
         result = highlight(result, kind);
+      } else if (extra && extra.indent) {
+        result = format(kind, input, extra.indent);
+      } else {
+        result = format(kind, input);
       }
     } else if (key === 'jwt') {
       if (kind === 'sign') {
