@@ -4,6 +4,8 @@ import Editor from '../components/editor';
 
 import ErrorFormat from '../components/error.format';
 
+const color = ['text-red-500', 'text-blue-500', 'text-green-500'];
+
 // default jwtObject
 const jwtObjDefault = {
   header: '',
@@ -242,6 +244,16 @@ const JWTView = () => {
     setAlgFound(res.result[Object.keys(res.result)[0]]);
   }, []);
 
+  const transform = (v) => {
+    const vArr = v.split('.');
+    return vArr.map((e, i) => (
+      <span key={color[i]}>
+        {(i > 0 && '.') || ''}
+        <span className={color[i]}>{e}</span>
+      </span>
+    ));
+  };
+
   let algInputSignInput;
 
   if (algFound && algFound.secret) {
@@ -288,7 +300,12 @@ const JWTView = () => {
         {/* <div className="h-full flex">
           <textarea className="w-full flex1" height="100%" onChange={onChangeJwt} value={jwtString.jwt} />
         </div> */}
-        <Editor className="w-full flex-1" onChange={onChangeJwt} value={jwtString.jwt} />
+        <Editor
+          className="w-full flex-1"
+          onChange={onChangeJwt}
+          value={jwtString.jwt}
+          transform={(v) => transform(v)}
+        />
         <span className={jwtObj.verified ? 'text-green-600' : 'text-red-600'}>
           {jwtObj.verified ? 'Valid signature' : 'Invalid signature'}
         </span>

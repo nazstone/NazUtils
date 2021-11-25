@@ -2,9 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const color = ['text-red-500', 'text-blue-500', 'text-green-500'];
-
-const Editor = ({ value, className, onChange }) => {
+const Editor = ({ value, className, onChange, transform }) => {
   const onChangeTextArea = (e) => {
     onChange(e);
   };
@@ -12,17 +10,6 @@ const Editor = ({ value, className, onChange }) => {
     // eslint-disable-next-line no-undef
     const divCurr = document.getElementById('div_render_ta');
     divCurr.scrollTop = e.target.scrollTop;
-  };
-
-  const transform = (v) => {
-    const vArr = v.split('.');
-    return vArr.map((e, i) => (
-      <span key={color[i]}>
-        {(i > 0 && '.') || ''}
-        <span className={color[i]}>{e}</span>
-      </span>
-    ));
-    // return v;
   };
 
   return (
@@ -47,6 +34,7 @@ Editor.propTypes = {
   className: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
+  transform: PropTypes.func.isRequired,
 };
 
 Editor.defaultProps = {
