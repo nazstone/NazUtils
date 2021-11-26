@@ -11,12 +11,10 @@ The project is a kind of alternative of other proprietary apps (like DevUtils.ap
 
 # TODO
 
-- left panel improve
 - add loader
-- style
-  - textarea: highight
-- regex?
 - preview?:
   - html
   - markdown
-- about: list libraries use for the app
+- image manip?
+  - base64 html sample
+  - resize
