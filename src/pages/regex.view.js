@@ -1,10 +1,13 @@
 import React, { useRef, useState } from 'react';
 import Editor from '../components/editor';
+import ErrorFormat from '../components/error.format';
 
 const regexColorGroup = ['bg-indigo-400', 'bg-red-300', 'bg-purple-300', 'bg-green-300', 'bg-pink-300', 'bg-blue-300'];
 
 const RegexView = () => {
   const input = useRef(null);
+
+  const [error, setError] = useState('');
   const [regex, setRegex] = useState();
   const [text, setText] = useState('');
 
@@ -75,8 +78,9 @@ const RegexView = () => {
   const onClick = () => {
     try {
       setRegex(new RegExp(input.current.value, 'gm'));
-    } catch (error) {
-      console.error(error);
+      setError('');
+    } catch (er) {
+      setError(er.message || 'Regex error');
     }
   };
 
@@ -94,6 +98,7 @@ const RegexView = () => {
           Go
         </button>
       </div>
+      <ErrorFormat error={error} setError={setError} />
       <Editor className="flex-1" transform={transform} onChange={onChange} value={text} />
     </div>
   );
