@@ -277,7 +277,7 @@ const JWTView = () => {
 
   return (
     <div className="flex flex-grow v-full h-full">
-      <div className="flex-1 flex flex-col v-full p-2">
+      <div className="flex-1 w-0 flex flex-col v-full p-2">
         <div className="pb-2">
           <button type="button" className="btn mr-3" onClick={onClickClear}>
             Clear

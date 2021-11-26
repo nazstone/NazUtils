@@ -17,6 +17,8 @@ const Editor = ({ value, className, onChange, transform }) => {
       <textarea
         className="w-full h-full absolute bg-transparent p-0 border-none font-mono editor_outline text-base text-transparent overflow-auto"
         height="100%"
+        spellCheck="false"
+        autoCorrect="off"
         onChange={onChangeTextArea}
         onScroll={onScrollTextArea}
         value={value}
