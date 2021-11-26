@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import Editor from '../components/editor';
 
+const regexColorGroup = ['bg-indigo-400', 'bg-red-300', 'bg-purple-300', 'bg-green-300', 'bg-pink-300', 'bg-blue-300'];
+
 const RegexView = () => {
   const input = useRef(null);
   const [regex, setRegex] = useState();
@@ -9,17 +11,41 @@ const RegexView = () => {
   const transform = (v) => {
     const group = [...v.matchAll(regex)];
     let currIndex = 0;
-    console.log(group);
     if (!group || group.length === 0) {
       return v;
     }
     const l = group.map((e, i, arr) => {
-      const highlightFound = <span className="bg-red-300">{e[0]}</span>;
-
       // get text before if need
       let textBefore;
       if (e.index !== currIndex) {
         textBefore = <span>{text.substr(currIndex, e.index - currIndex)}</span>;
+      }
+
+      const highlightFound = [];
+      const subTextGrp = text.substr(e.index, e[0].length);
+      let currIndexGrp = 0;
+      if (e.length === 1) {
+        highlightFound.push(<span className="bg-yellow-300">{subTextGrp}</span>);
+      } else {
+        // for each sub group
+        for (let j = 1; j < e.length; j += 1) {
+          const beginEltInSubTextGrp = subTextGrp.indexOf(e[j]);
+          // if current index is not matching next one, then missing a block so need to add it
+          if (currIndexGrp !== beginEltInSubTextGrp) {
+            highlightFound.push(
+              <span className="bg-yellow-300">
+                {subTextGrp.substr(currIndexGrp, beginEltInSubTextGrp - currIndexGrp)}
+              </span>
+            );
+          }
+          // add the group search
+          highlightFound.push(<span className={regexColorGroup[(j - 1) % regexColorGroup.length]}>{e[j]}</span>);
+          currIndexGrp = beginEltInSubTextGrp + e[j].length;
+          // add last part of search
+          if (j + 1 === e.length) {
+            highlightFound.push(<span className="bg-yellow-300">{subTextGrp.substr(currIndexGrp)}</span>);
+          }
+        }
       }
 
       // get text after if need
@@ -63,7 +89,7 @@ const RegexView = () => {
   return (
     <div className="h-full p-2 flex flex-col">
       <div className="flex py-2">
-        <input type="text" className="flex-1 mr-2" ref={input} onKeyPress={onKeyPress} />
+        <input type="text" className="flex-1 mr-2" ref={input} onKeyPress={onKeyPress} placeholder="([a-z]{3})" />
         <button type="button" className="btn" onClick={onClick}>
           Go
         </button>
