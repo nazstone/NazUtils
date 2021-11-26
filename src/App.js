@@ -6,6 +6,7 @@ import JWTView from './pages/jwt.view';
 import LoremIpsumView from './pages/lorem.ipsum';
 import SwaggerView from './pages/swagger.view';
 import AboutView from './pages/about.view';
+import RegexView from './pages/regex.view';
 
 const views = [
   {
@@ -35,6 +36,11 @@ const views = [
     element: <LoremIpsumView />,
   },
   {
+    link: '/regex',
+    name: 'Regex',
+    element: <RegexView />,
+  },
+  {
     link: '/about',
     name: 'About',
     element: <AboutView />,
@@ -47,11 +53,13 @@ const CustomLink = ({ children, to, key }) => {
   const match = useMatch({ path: resolved.pathname, end: true });
 
   return (
-    <div key={key} className={`${match ? 'bg-green-100' : ''} px-2`}>
-      <Link className={match ? 'no-underline text-xl font-medium' : 'no-underline text-lg'} to={to}>
-        {children}
-      </Link>
-    </div>
+    <Link
+      key={key}
+      className={match ? 'bg-green-100 no-underline text-xl font-medium px-2' : 'no-underline text-lg px-2'}
+      to={to}
+    >
+      {children}
+    </Link>
   );
 };
 
