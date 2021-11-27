@@ -2,7 +2,10 @@
   "name": "nazutils",
   "version": "0.1.0",
   "private": true,
-  "author": "nazstone@gmail.com",
+  "author": {
+    "name": "Matthieu Lambert",
+    "email": "nazstone@gmail.com"
+  },
   "description": "Toolbox for web developer",
   "license": "MIT",
   "build": {
@@ -13,10 +16,11 @@
       "public/**/*",
       "package.json"
     ],
-    "productName": "NazUtils",
+    "productName": "nazutils",
     "linux": {
       "target": [
-        "zip"
+        "zip",
+        "deb"
       ],
       "category": "Development"
     }
