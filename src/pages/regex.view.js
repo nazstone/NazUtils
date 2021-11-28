@@ -1,18 +1,34 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import Editor from '../components/editor';
 import ErrorFormat from '../components/error.format';
+import GlobalContext from '../context/context';
 
 const regexColorGroup = ['bg-indigo-400', 'bg-red-300', 'bg-purple-300', 'bg-green-300', 'bg-pink-300', 'bg-blue-300'];
 
 const RegexView = () => {
   const input = useRef(null);
 
+  const globalContext = useContext(GlobalContext);
+  const { regex, setRegex } = globalContext;
+
   const [error, setError] = useState('');
-  const [regex, setRegex] = useState();
-  const [text, setText] = useState('');
+
+  const { expression, text } = regex;
+  const setExpression = (e) => {
+    setRegex({ ...regex, expression: e });
+  };
+  const setText = (e) => {
+    setRegex({ ...regex, text: e });
+  };
 
   const transform = (v) => {
-    const group = [...v.matchAll(regex)];
+    let regexExpress;
+    try {
+      regexExpress = new RegExp(expression, 'gm');
+    } catch (err) {
+      return v;
+    }
+    const group = [...v.matchAll(regexExpress)];
     let currIndex = 0;
     if (!group || group.length === 0) {
       return v;
@@ -75,29 +91,16 @@ const RegexView = () => {
     setText(e.target.value);
   };
 
-  const onClick = () => {
-    try {
-      setRegex(new RegExp(input.current.value, 'gm'));
-      setError('');
-    } catch (er) {
-      setError(er.message || 'Regex error');
-    }
-  };
-
-  const onKeyPress = (e) => {
-    if (e.ctrlKey && e.key === 'Enter') {
-      onClick();
-    }
-  };
-
   return (
     <div className="h-full p-2 flex flex-col">
-      <div className="flex py-2">
-        <input type="text" className="flex-1 mr-2" ref={input} onKeyPress={onKeyPress} placeholder="([a-z]{3})" />
-        <button type="button" className="btn" onClick={onClick}>
-          Go
-        </button>
-      </div>
+      <input
+        type="text"
+        className="p-2 mb-2"
+        ref={input}
+        placeholder="([a-z]{3})"
+        value={expression || ''}
+        onChange={(e) => setExpression(e.target.value)}
+      />
       <ErrorFormat error={error} setError={setError} />
       <Editor className="flex-1" transform={transform} onChange={onChange} value={text} />
     </div>
