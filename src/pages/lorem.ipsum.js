@@ -1,11 +1,14 @@
 /* eslint-disable no-undef */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import ErrorFormat from '../components/error.format';
+import GlobalContext from '../context/context';
 import { buttonBar } from '../styles/common';
 
 const LoremIpsumView = () => {
   const [errorMsg, setErrorMsg] = useState('');
-  const [loremIpsum, setLoremIpsum] = useState('');
+
+  const globalContext = useContext(GlobalContext);
+  const { lorem, setLorem } = globalContext;
 
   const sendIpcLorem = (type = 'sentence') => {
     const number = document.getElementById('number').value;
@@ -18,8 +21,12 @@ const LoremIpsumView = () => {
       setErrorMsg(error);
     } else {
       setErrorMsg('');
-      setLoremIpsum(result);
+      setLorem({ ...lorem, text: result });
     }
+  };
+  const onChange = () => {
+    const number = document.getElementById('number').value;
+    setLorem({ ...lorem, number });
   };
   const onClickSentence = () => {
     sendIpcLorem();
@@ -29,11 +36,11 @@ const LoremIpsumView = () => {
   };
   const onClickClear = () => {
     setErrorMsg('');
-    setLoremIpsum('');
+    setLorem({ ...lorem, text: '' });
   };
   const onClickCopy = () => {
     // eslint-disable-next-line no-undef
-    navigator.clipboard.writeText(loremIpsum);
+    navigator.clipboard.writeText(lorem.text);
   };
   return (
     <div className="flex flex-col flex-grow h-full flex-col">
@@ -47,7 +54,15 @@ const LoremIpsumView = () => {
             Paragraph
           </button>
           <div className="self-center">
-            Number of: <input id="number" type="number" max="100" className="w-12" defaultValue="3" />
+            Number of:{' '}
+            <input
+              id="number"
+              type="number"
+              max="100"
+              className="w-12"
+              defaultValue={lorem.number}
+              onChange={onChange}
+            />
           </div>
           <div className="flex-grow" />
           <button type="button" className="btn" onClick={onClickClear}>
@@ -61,7 +76,7 @@ const LoremIpsumView = () => {
       </div>
       <div className="p-2 bg-blue-200 flex-1 overflow-auto">
         <h1>Generated</h1>
-        <p className="break-all whitespace-pre-wrap">{loremIpsum}</p>
+        <p className="break-all whitespace-pre-wrap">{lorem.text}</p>
       </div>
     </div>
   );

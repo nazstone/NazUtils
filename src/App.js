@@ -9,8 +9,11 @@ import LoremIpsumView from './pages/lorem.ipsum';
 import SwaggerView from './pages/swagger.view';
 import AboutView from './pages/about.view';
 import RegexView from './pages/regex.view';
+
+// context
 import GlobalContext from './context/context';
 import regexDefault from './context/regex';
+import loremDefault from './context/lorem';
 
 const views = [
   {
@@ -69,6 +72,9 @@ const CustomLink = ({ children, to, key }) => {
 
 function App() {
   const [regex, setRegex] = useState(regexDefault);
+  const [lorem, setLorem] = useState(loremDefault);
+  const contextValue = { regex, setRegex, lorem, setLorem };
+
   const [hideMenu, setHideMenu] = useState(false);
   const onClickHide = () => {
     setHideMenu(!hideMenu);
@@ -77,7 +83,7 @@ function App() {
   const menuStyle = `bg-gray-100 h-full flex flex-col relative ${(!hideMenu && 'min-w-48 w-48') || 'min-w-0 w-0'}`;
 
   return (
-    <GlobalContext.Provider value={{ regex, setRegex }}>
+    <GlobalContext.Provider value={contextValue}>
       <div className="bg-gray-100 h-full flex">
         <div className={menuStyle}>
           <button
