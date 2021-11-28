@@ -1,5 +1,6 @@
 # About
 
+Desktop application for classical web developer actions (format, encode, jwt). Web Tool.
 The project is a kind of alternative of other proprietary apps (like DevUtils.app for MacOS and dev-box).
 
 # Command
@@ -18,3 +19,4 @@ The project is a kind of alternative of other proprietary apps (like DevUtils.ap
 - image manip?
   - base64 html sample
   - resize
+  - QRCode
