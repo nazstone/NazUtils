@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -32,6 +31,7 @@ const Editor = ({ value, className, onChange, transform }) => {
     </div>
   );
 };
+
 Editor.propTypes = {
   className: PropTypes.string,
   value: PropTypes.string,
