@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, Link, useMatch, useResolvedPath } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 // view
 import EncodeDecodeView from './pages/encode.decode.view';
@@ -14,6 +15,7 @@ import RegexView from './pages/regex.view';
 import GlobalContext from './context/context';
 import regexDefault from './context/regex';
 import loremDefault from './context/lorem';
+import jwtDefault from './context/jwt';
 
 const views = [
   {
@@ -54,7 +56,6 @@ const views = [
   },
 ];
 
-// eslint-disable-next-line react/prop-types
 const CustomLink = ({ children, to, key }) => {
   const resolved = useResolvedPath(to);
   const match = useMatch({ path: resolved.pathname, end: true });
@@ -70,10 +71,17 @@ const CustomLink = ({ children, to, key }) => {
   );
 };
 
+CustomLink.propTypes = {
+  children: PropTypes.node.isRequired,
+  to: PropTypes.string.isRequired,
+  key: PropTypes.string.isRequired,
+};
+
 function App() {
   const [regex, setRegex] = useState(regexDefault);
   const [lorem, setLorem] = useState(loremDefault);
-  const contextValue = { regex, setRegex, lorem, setLorem };
+  const [jwt, setJwt] = useState(jwtDefault);
+  const contextValue = { regex, setRegex, lorem, setLorem, jwt, setJwt };
 
   const [hideMenu, setHideMenu] = useState(false);
   const onClickHide = () => {
@@ -97,7 +105,7 @@ function App() {
           </button>
           {!hideMenu &&
             views.map((v) => (
-              <CustomLink key={v.link} to={v.link}>
+              <CustomLink key={v.link || v.name} to={v.link}>
                 {v.name}
               </CustomLink>
             ))}
