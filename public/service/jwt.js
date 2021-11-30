@@ -45,7 +45,7 @@ const extractHeaderPayloadSignature = (val) => {
 };
 
 const signPayload = (header, payload, secret, privateKey) => {
-  return jwt.sign(payload, secret || privateKey, { header: JSON.parse(header) });
+  return jwt.sign(payload, secret || privateKey, { header: JSON.parse(header), noTimestamp: true });
 };
 
 module.exports = {
