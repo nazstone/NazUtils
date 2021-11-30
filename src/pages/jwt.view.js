@@ -1,37 +1,53 @@
 /* eslint-disable no-undef */
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Editor from '../components/editor';
 
 import ErrorFormat from '../components/error.format';
+import GlobalContext from '../context/context';
 
 const color = ['text-red-500', 'text-blue-500', 'text-green-500'];
+
+const alg = {
+  HS256: { name: 'HS256', type: 'jwt', alg: 'HMACSHA256', secret: true },
+  HS384: { name: 'HS384', type: 'jwt', alg: 'HMACSHA384', secret: true },
+  HS512: { name: 'HS512', type: 'jwt', alg: 'HMACSHA512', secret: true },
+  RS256: { name: 'RS256', type: 'jwt', alg: 'RSASHA256', secret: false },
+  RS384: { name: 'RS384', type: 'jwt', alg: 'RSASHA384', secret: false },
+  RS512: { name: 'RS512', type: 'jwt', alg: 'RSASHA512', secret: false },
+  ES256: { name: 'ES256', type: 'jwt', alg: 'ECDSASHA256', secret: false },
+  ES384: { name: 'ES384', type: 'jwt', alg: 'ECDSASHA384', secret: false },
+  ES512: { name: 'ES512', type: 'jwt', alg: 'ECDSASHA512', secret: false },
+  PS256: { name: 'PS256', type: 'jwt', alg: 'RSAPSSSHA256', secret: false },
+  PS384: { name: 'PS384', type: 'jwt', alg: 'RSAPSSSHA384', secret: false },
+  PS512: { name: 'PS512', type: 'jwt', alg: 'RSAPSSSHA512', secret: false },
+  NONE: { name: 'NONE', type: 'none' },
+};
 
 // default jwtObject
 const jwtObjDefault = {
   header: '',
   payload: '',
-  signature: 'MySecretPassword',
-  public: `-----BEGIN PUBLIC KEY-----
-MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKVUHlZBKZEi2x4Z/oDbByoOf1Yh3PM1
-0Y5aa87Uuo6yxZ6eFM8rCB2QvwYnixmDQiwwMhmKicLhoAXRvT5JmjkCAwEAAQ==
------END PUBLIC KEY-----`,
-  private: `-----BEGIN RSA PRIVATE KEY-----
-MIIBOgIBAAJBAKVUHlZBKZEi2x4Z/oDbByoOf1Yh3PM10Y5aa87Uuo6yxZ6eFM8r
-CB2QvwYnixmDQiwwMhmKicLhoAXRvT5JmjkCAwEAAQJAMmaJdQwaaudwWyXbg1bC
-QVz4Dr72B6LRho8kLIKHePajeIJ/zNbeMTWEhHaav/cVWiqbeba9mA+bycqHxsyx
-jQIhANHfD6PuyxoRivRQenXWM9vypYl4RyzSBXPVAzLskPVDAiEAyaq/bDvQ13Sz
-DxHXeuRWxpq4KfO3BrIv1WZmwcJBfNMCIQCHB5OSj/NRJHRY2ObRpi3bl/T1y9NP
-fRlQ+36BZz+k7QIgL/HtUrEh5Kd1DqciQLBaxRrxn9+2atwgLS8MTRJ++UsCIG46
-jGFzsBTiTVRvjEdISr7P+TQNXpKP+YqghQgbvGpn
------END RSA PRIVATE KEY-----`,
+  signature: '',
+  public: '',
+  private: '',
   verified: false,
   dirty: false,
 };
 
 const JWTView = () => {
-  const [jwtString, setJwtString] = useState({ jwt: '', dirty: false });
-  const [alg, setAlg] = useState([]);
-  const [algFound, setAlgFound] = useState();
+  const globalContext = useContext(GlobalContext);
+  const { jwt, setJwt } = globalContext;
+  jwtObjDefault.private = jwt.private;
+  jwtObjDefault.public = jwt.public;
+  jwtObjDefault.signature = jwt.signature;
+
+  const [jwtString, setJwtString] = useState({ jwt: jwt.text, dirty: false });
+
+  const setJwtStringMain = (e) => {
+    setJwtString(e);
+    setJwt({ ...jwt, text: e.jwt });
+  };
+  const [algFound, setAlgFound] = useState(alg[Object.keys(alg)[0]]);
   const [jwtObj, setJwtObj] = useState(jwtObjDefault);
   const [error, setError] = useState('');
 
@@ -99,7 +115,7 @@ const JWTView = () => {
       setError(res.error);
     } else {
       setError('');
-      setJwtString({ jwt: res.result, dirty: false });
+      setJwtStringMain({ jwt: res.result, dirty: false });
       setJwtObj({
         ...jwtObj,
         verified: true,
@@ -110,7 +126,7 @@ const JWTView = () => {
 
   // on change for jwt string
   const onChangeJwt = (e) => {
-    setJwtString({ jwt: e.target.value, dirty: true });
+    setJwtStringMain({ jwt: e.target.value, dirty: true });
   };
   // on change for header
   const onChangeHeader = (e) => {
@@ -145,6 +161,7 @@ const JWTView = () => {
       signature: e.target.value,
       dirty: true,
     });
+    setJwt({ ...jwt, signature: e.target.value });
   };
 
   // on change for public key
@@ -154,6 +171,7 @@ const JWTView = () => {
       public: e.target.value,
       dirty: true,
     });
+    setJwt({ ...jwt, public: e.target.value });
   };
   // on change for private key
   const onChangePrivate = (e) => {
@@ -162,6 +180,7 @@ const JWTView = () => {
       private: e.target.value,
       dirty: true,
     });
+    setJwt({ ...jwt, private: e.target.value });
   };
   // on change for algo
   const onChangeAlgo = (e) => {
@@ -202,7 +221,7 @@ const JWTView = () => {
   };
 
   const onClickClear = () => {
-    setJwtString({ jwt: '', dirty: true });
+    setJwtStringMain({ jwt: '', dirty: true });
   };
 
   const onClickCopy = () => {
@@ -211,7 +230,7 @@ const JWTView = () => {
   };
 
   const onClickSample = () => {
-    setJwtString({
+    setJwtStringMain({
       jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0YWRhIiwibmFtZSI6InRhZGEifQ.B5h2p7JIzod1opXE51wMPu2v5k5nmB1NgEugkzKtZgM',
       dirty: true,
     });
@@ -236,12 +255,7 @@ const JWTView = () => {
   }, [jwtString]);
 
   useEffect(() => {
-    const res = window.electron.ipcRenderer.sendSync('query', {
-      key: 'jwt',
-      kind: 'alg',
-    });
-    setAlg(res.result);
-    setAlgFound(res.result[Object.keys(res.result)[0]]);
+    sendExtract();
   }, []);
 
   const transform = (v) => {

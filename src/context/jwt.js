@@ -1,0 +1,17 @@
+export default {
+  text: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0YWRhIiwibmFtZSI6InRhZGEifQ.B5h2p7JIzod1opXE51wMPu2v5k5nmB1NgEugkzKtZgM',
+  signature: 'MySecretPassword',
+  public: `-----BEGIN PUBLIC KEY-----
+MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKVUHlZBKZEi2x4Z/oDbByoOf1Yh3PM1
+0Y5aa87Uuo6yxZ6eFM8rCB2QvwYnixmDQiwwMhmKicLhoAXRvT5JmjkCAwEAAQ==
+-----END PUBLIC KEY-----`,
+  private: `-----BEGIN RSA PRIVATE KEY-----
+MIIBOgIBAAJBAKVUHlZBKZEi2x4Z/oDbByoOf1Yh3PM10Y5aa87Uuo6yxZ6eFM8r
+CB2QvwYnixmDQiwwMhmKicLhoAXRvT5JmjkCAwEAAQJAMmaJdQwaaudwWyXbg1bC
+QVz4Dr72B6LRho8kLIKHePajeIJ/zNbeMTWEhHaav/cVWiqbeba9mA+bycqHxsyx
+jQIhANHfD6PuyxoRivRQenXWM9vypYl4RyzSBXPVAzLskPVDAiEAyaq/bDvQ13Sz
+DxHXeuRWxpq4KfO3BrIv1WZmwcJBfNMCIQCHB5OSj/NRJHRY2ObRpi3bl/T1y9NP
+fRlQ+36BZz+k7QIgL/HtUrEh5Kd1DqciQLBaxRrxn9+2atwgLS8MTRJ++UsCIG46
+jGFzsBTiTVRvjEdISr7P+TQNXpKP+YqghQgbvGpn
+-----END RSA PRIVATE KEY-----`,
+};
