@@ -2,6 +2,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Editor from '../components/editor';
 
+import jwtDefault from '../context/jwt';
+
 import ErrorFormat from '../components/error.format';
 import GlobalContext from '../context/context';
 
@@ -231,7 +233,7 @@ const JWTView = () => {
 
   const onClickSample = () => {
     setJwtStringMain({
-      jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0YWRhIiwibmFtZSI6InRhZGEifQ.B5h2p7JIzod1opXE51wMPu2v5k5nmB1NgEugkzKtZgM',
+      jwt: jwtDefault.text,
       dirty: true,
     });
   };
