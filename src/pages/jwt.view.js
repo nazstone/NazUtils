@@ -7,7 +7,7 @@ import jwtDefault from '../context/jwt';
 import ErrorFormat from '../components/error.format';
 import GlobalContext from '../context/context';
 
-const color = ['text-red-500', 'text-blue-500', 'text-green-500'];
+const color = ['text-red-500', 'text-green-500', 'text-blue-500'];
 
 const alg = {
   HS256: { name: 'HS256', type: 'jwt', alg: 'HMACSHA256', secret: true },
