@@ -70,7 +70,9 @@
     "react-router-dom": "^6.0.0",
     "react-scripts": "4.0.3",
     "sql-formatter": "^4.0.2",
+    "stream-mmmagic": "^2.3.0",
     "swagger-ui-react": "^4.1.0",
+    "tailwindcss-toggle": "^1.0.3",
     "web-vitals": "^1.0.1",
     "xml-formatter": "^2.5.1"
   },

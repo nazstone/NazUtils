@@ -3,7 +3,7 @@ import { Routes, Route, Link, useMatch, useResolvedPath } from 'react-router-dom
 import PropTypes from 'prop-types';
 
 // view
-import EncodeDecodeView from './pages/encode.decode.view';
+import EncodeDecodeView from './pages/en.de.code.view';
 import PrettierView from './pages/prettier.view';
 import JWTView from './pages/jwt.view';
 import LoremIpsumView from './pages/lorem.ipsum';

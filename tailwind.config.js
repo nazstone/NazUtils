@@ -3,6 +3,9 @@ module.exports = {
   darkMode: false,
   theme: {
     extend: {
+      inset: {
+        '-1/4': '-.25rem',
+      },
       spacing: {
         108: '27rem',
         120: '30rem',
@@ -20,5 +23,6 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  // eslint-disable-next-line global-require
+  plugins: [require('tailwindcss-toggle')()],
 };
