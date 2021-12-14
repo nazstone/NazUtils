@@ -20,3 +20,5 @@ The project is a kind of alternative of other proprietary apps (like DevUtils.ap
   - base64 html sample
   - resize
   - QRCode
+- hex
+- color
