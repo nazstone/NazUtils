@@ -4,7 +4,7 @@ const { ipcMain, Menu } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
 
-const service = require('./service');
+const { main } = require('./service');
 
 const { app } = electron;
 const { BrowserWindow } = electron;
@@ -54,7 +54,4 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('query', (event, arg) => {
-  // eslint-disable-next-line no-param-reassign
-  event.returnValue = service(arg.key, arg.value, arg.kind, arg.extra);
-});
+main(ipcMain);

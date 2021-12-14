@@ -5,46 +5,78 @@ const { format } = require('./format');
 const { signPayload, extractHeaderPayloadSignature, mapAlgo } = require('./jwt');
 const loremIpsum = require('./loremipsum');
 
-const map = (key, input, kind, extra) => {
+const formatEntrypoint = (input, kind, extra) => {
+  let result;
+  if (extra && extra.highlight) {
+    result = format(kind, input);
+    result = highlight(result, kind);
+  } else if (extra && extra.indent) {
+    result = format(kind, input, extra.indent);
+  } else {
+    result = format(kind, input);
+  }
+  return result;
+};
+
+const jwtEntrypoint = (input, kind) => {
+  let result;
+
+  if (kind === 'sign') {
+    const obj = JSON.parse(input);
+    result = signPayload(obj.header, obj.payload, obj.secret, obj.privateKey);
+  } else if (kind === 'extract') {
+    result = extractHeaderPayloadSignature(input);
+  } else {
+    result = mapAlgo;
+  }
+  return result;
+};
+
+const encodeEntrypoint = (key, input, kind) => {
+  return encodeDecode(key === 'encode', kind, input);
+};
+
+const loremEntrypoint = (kind, input) => {
+  return loremIpsum(kind, input);
+};
+
+const mapResult = (fn) => {
   try {
-    let result;
-    if (key === 'format' && kind) {
-      if (extra && extra.highlight) {
-        result = format(kind, input);
-        result = highlight(result, kind);
-      } else if (extra && extra.indent) {
-        result = format(kind, input, extra.indent);
-      } else {
-        result = format(kind, input);
-      }
-    } else if (key === 'jwt') {
-      if (kind === 'sign') {
-        const obj = JSON.parse(input);
-        result = signPayload(obj.header, obj.payload, obj.secret, obj.privateKey);
-      } else if (kind === 'extract') {
-        result = extractHeaderPayloadSignature(input);
-      } else {
-        result = mapAlgo;
-      }
-    } else if (key === 'encode' || key === 'decode') {
-      result = encodeDecode(key === 'encode', kind, input);
-    } else if (key === 'lorem') {
-      result = loremIpsum(kind, input);
-    }
+    const result = fn();
     return {
       result,
       error: null,
     };
   } catch (error) {
-    console.error('map service action', error);
-
-    const errMsg = extractErrorMsg(error);
-
     return {
       result: null,
-      error: errMsg,
+      error: extractErrorMsg(error),
     };
   }
 };
 
-module.exports = map;
+const main = (ipcMain) => {
+  ipcMain.on('query.format', (event, arg) => {
+    // eslint-disable-next-line no-param-reassign
+    event.returnValue = mapResult(() => formatEntrypoint(arg.value, arg.kind, arg.extra));
+  });
+
+  ipcMain.on('query.jwt', (event, arg) => {
+    // eslint-disable-next-line no-param-reassign
+    event.returnValue = mapResult(() => jwtEntrypoint(arg.value, arg.kind));
+  });
+
+  ipcMain.on('query.encode', (event, arg) => {
+    // eslint-disable-next-line no-param-reassign
+    event.returnValue = mapResult(() => encodeEntrypoint(arg.key, arg.value, arg.kind));
+  });
+
+  ipcMain.on('query.lorem', (event, arg) => {
+    // eslint-disable-next-line no-param-reassign
+    event.returnValue = mapResult(() => loremEntrypoint(arg.kind, arg.value));
+  });
+};
+
+module.exports = {
+  main,
+};

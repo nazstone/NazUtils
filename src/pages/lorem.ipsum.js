@@ -12,8 +12,7 @@ const LoremIpsumView = () => {
 
   const sendIpcLorem = (type = 'sentence') => {
     const number = document.getElementById('number').value;
-    const { result, error } = window.electron.ipcRenderer.sendSync('query', {
-      key: 'lorem',
+    const { result, error } = window.electron.ipcRenderer.sendSync('query.lorem', {
       kind: type,
       value: number,
     });

@@ -20,7 +20,7 @@ const EncodeDecodeView = () => {
 
   const encodeAction = () => {
     /* eslint-disable no-undef */
-    const { result: res, error } = window.electron.ipcRenderer.sendSync('query', {
+    const { result: res, error } = window.electron.ipcRenderer.sendSync('query.encode', {
       key: (encode && 'encode') || 'decode',
       kind: kind.name,
       value: inputRef.current.value,

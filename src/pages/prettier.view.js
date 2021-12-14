@@ -42,8 +42,7 @@ const FormatterView = () => {
   const [format, setFormatter] = useState(formats[0]);
 
   const clickCompute = () => {
-    const returned = window.electron.ipcRenderer.sendSync('query', {
-      key: 'format',
+    const returned = window.electron.ipcRenderer.sendSync('query.format', {
       kind: format.kind,
       // eslint-disable-next-line no-undef
       value: document.getElementById('textareaInput').value,

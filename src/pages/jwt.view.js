@@ -61,8 +61,7 @@ const JWTView = () => {
     }
 
     const secretKey = (algFound && algFound.secret && jwtObj.signature) || jwtObj.public;
-    const res = window.electron.ipcRenderer.sendSync('query', {
-      key: 'jwt',
+    const res = window.electron.ipcRenderer.sendSync('query.jwt', {
       kind: 'extract',
       value: JSON.stringify({
         jwtObj: jwtString.jwt,
@@ -97,8 +96,7 @@ const JWTView = () => {
     // sign the data to have a jwt string
     let res;
     try {
-      res = window.electron.ipcRenderer.sendSync('query', {
-        key: 'jwt',
+      res = window.electron.ipcRenderer.sendSync('query.jwt', {
         kind: 'sign',
         value: JSON.stringify({
           payload: (jwtObj.payload && JSON.parse(jwtObj.payload)) || {},
@@ -201,8 +199,7 @@ const JWTView = () => {
     const jwtHeaderTmp = { ...JSON.parse(jwtObj.header), alg: algFoundTmp.name };
 
     // pretty print
-    const returned = window.electron.ipcRenderer.sendSync('query', {
-      key: 'format',
+    const returned = window.electron.ipcRenderer.sendSync('query.format', {
       kind: 'json',
       value: JSON.stringify(jwtHeaderTmp),
       extra: {
