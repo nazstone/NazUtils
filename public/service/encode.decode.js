@@ -5,8 +5,11 @@ const encodeBase64 = (val) => {
   return buf.toString('base64');
 };
 
-const decodeBase64 = (val) => {
+const decodeBase64 = (val, buffer = false) => {
   const buf = Buffer.from(val, 'base64');
+  if (buffer) {
+    return buf;
+  }
   return buf.toString('utf-8');
 };
 
@@ -26,28 +29,33 @@ const decodeHtmlEntities = (val) => {
 };
 
 const encodeDecode = (encode, kind, val) => {
+  const result = {
+    type: 'text',
+    value: null,
+  };
   if (encode) {
     if (kind === 'uri') {
-      return encodeUrl(val);
+      result.value = encodeUrl(val);
     }
     if (kind === 'base64') {
-      return encodeBase64(val);
+      result.value = encodeBase64(val);
     }
     if (kind === 'html') {
-      return encodeHtmlEntities(val);
+      result.value = encodeHtmlEntities(val);
+    }
+  } else {
+    if (kind === 'uri') {
+      result.value = decodeUrl(val);
+    }
+    if (kind === 'base64') {
+      result.value = decodeBase64(val);
+    }
+    if (kind === 'html') {
+      result.value = decodeHtmlEntities(val);
     }
   }
 
-  if (kind === 'uri') {
-    return decodeUrl(val);
-  }
-  if (kind === 'base64') {
-    return decodeBase64(val);
-  }
-  if (kind === 'html') {
-    return decodeHtmlEntities(val);
-  }
-  return '';
+  return result;
 };
 
 module.exports = encodeDecode;

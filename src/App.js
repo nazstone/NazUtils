@@ -105,7 +105,7 @@ function App() {
           </button>
           {!hideMenu &&
             views.map((v) => (
-              <CustomLink key={v.link || v.name} to={v.link}>
+              <CustomLink key={v.name} to={v.link}>
                 {v.name}
               </CustomLink>
             ))}

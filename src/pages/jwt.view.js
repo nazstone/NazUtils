@@ -225,7 +225,7 @@ const JWTView = () => {
 
   const onClickCopy = () => {
     // eslint-disable-next-line no-undef
-    navigator.clipboard.writeText(jwtValue);
+    window.electron.ipcRenderer.sendSync('query.copy', jwtValue);
   };
 
   const onClickSample = () => {

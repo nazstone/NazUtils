@@ -39,7 +39,7 @@ const LoremIpsumView = () => {
   };
   const onClickCopy = () => {
     // eslint-disable-next-line no-undef
-    navigator.clipboard.writeText(lorem.text);
+    window.electron.ipcRenderer.sendSync('query.copy', lorem.text);
   };
   return (
     <div className="flex flex-col flex-grow h-full flex-col">

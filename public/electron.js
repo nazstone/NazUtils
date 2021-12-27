@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const electron = require('electron');
-const { ipcMain, Menu } = require('electron');
+const { ipcMain, Menu, dialog } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
 
@@ -54,4 +54,4 @@ app.on('activate', () => {
   }
 });
 
-main(ipcMain);
+main(ipcMain, dialog);

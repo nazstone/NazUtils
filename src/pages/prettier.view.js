@@ -110,7 +110,7 @@ const FormatterView = () => {
               className="btn"
               onClick={() => {
                 // eslint-disable-next-line no-undef
-                navigator.clipboard.writeText(result);
+                window.electron.ipcRenderer.sendSync('query.copy', result);
               }}
             >
               Copy

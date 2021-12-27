@@ -22,3 +22,4 @@ The project is a kind of alternative of other proprietary apps (like DevUtils.ap
   - QRCode
 - hex
 - color
+- swagger local file

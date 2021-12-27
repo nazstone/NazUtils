@@ -36,13 +36,23 @@ const EncodeDecodeView = () => {
     setFocusInput(false);
   };
   const clearButton = () => {
-    setResult('');
+    setResult({});
     inputRef.current.value = '';
     setFocusInput(true);
   };
   const onClickCopy = () => {
-    // eslint-disable-next-line no-undef
-    navigator.clipboard.writeText(result);
+    window.electron.ipcRenderer.sendSync('query.copy', result.value);
+  };
+  const fileButton = () => {
+    const r = window.electron.ipcRenderer.sendSync('query.encode.file');
+    if (r.error) {
+      setErrorMsg(r.error);
+      setResult('');
+    } else {
+      setErrorMsg('');
+      setResult(r.result);
+      setFocusInput(false);
+    }
   };
   const onChangeKind = (e) => {
     setKind(kinds.filter((k) => k.name === e.target.value)[0]);
@@ -61,8 +71,6 @@ const EncodeDecodeView = () => {
       encodeAction();
     }
   };
-
-  console.log('focus:', focusInput, 'result:', !result);
 
   return (
     <div className="flex flex-grow h-full flex-col">
@@ -96,6 +104,11 @@ const EncodeDecodeView = () => {
           <button type="button" className="btn" onClick={clearButton}>
             Clear
           </button>
+          {kind.name === 'base64' && (
+            <button type="button" className="btn" onClick={fileButton}>
+              File
+            </button>
+          )}
           <select className="btn" onChange={onChangeKind}>
             {kinds.map((e) => (
               <option key={e.name} value={e.name}>
@@ -116,7 +129,12 @@ const EncodeDecodeView = () => {
         />
       </div>
       <div className={`h-full m-2 ${focusInput && 'flex-1'}`}>
-        <textarea className="w-full h-full p-2 outline-none" readOnly value={result} onFocus={onFocusInputInverse} />
+        <textarea
+          className="w-full h-full p-2 outline-none"
+          readOnly
+          value={result.value || ''}
+          onFocus={onFocusInputInverse}
+        />
       </div>
     </div>
   );

@@ -22,7 +22,8 @@
         "zip",
         "deb"
       ],
-      "category": "Development"
+      "category": "Development",
+      "icon": "./icon.png"
     }
   },
   "main": "public/electron.js",
