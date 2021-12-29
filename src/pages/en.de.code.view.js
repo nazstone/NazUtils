@@ -37,14 +37,19 @@ const EncodeDecodeView = () => {
   };
   const clearButton = () => {
     setResult({});
-    inputRef.current.value = '';
+    if (inputRef && inputRef.current) {
+      inputRef.current.value = '';
+    }
     setFocusInput(true);
   };
   const onClickCopy = () => {
     window.electron.ipcRenderer.sendSync('query.copy', result.value);
   };
+  const onClickSave = () => {
+    window.electron.ipcRenderer.send('query.download', result.value);
+  };
   const fileButton = () => {
-    const r = window.electron.ipcRenderer.sendSync('query.encode.file');
+    const r = window.electron.ipcRenderer.sendSync('query.encode.file', { encode });
     if (r.error) {
       setErrorMsg(r.error);
       setResult('');
@@ -98,9 +103,6 @@ const EncodeDecodeView = () => {
             </button>
           </label>
           <div className="flex-grow" />
-          <button type="button" className="btn" onClick={onClickCopy}>
-            Copy
-          </button>
           <button type="button" className="btn" onClick={clearButton}>
             Clear
           </button>
@@ -119,22 +121,39 @@ const EncodeDecodeView = () => {
         </div>
       </div>
       <ErrorFormat error={errorMsg} setError={setErrorMsg} />
-      <div className={`h-full m-2 ${!focusInput && 'flex-1'}`}>
-        <textarea
-          className="w-full h-full p-2 outline-none"
-          placeholder={(encode && 'Text to encode') || 'Text to decode'}
-          onKeyPress={onKeyPressInput}
-          onFocus={onFocusInput}
-          ref={inputRef}
-        />
+      <div className={`h-full mx-2 mt-2 ${!focusInput && 'flex-1'}`}>
+        {!result.input && (
+          <textarea
+            className="w-full h-full p-2 outline-none"
+            placeholder={(encode && 'Text to encode') || 'Text to decode'}
+            onKeyPress={onKeyPressInput}
+            onFocus={onFocusInput}
+            ref={inputRef}
+          />
+        )}
+        {result.input && <div className="w-full h-full p-2 border-dashed border-2 border-black">{result.input}</div>}
+      </div>
+      <div className="flex space-x-1 mx-2 mt-2 justify-end">
+        <button type="button" className="btn" onClick={onClickSave}>
+          Download file
+        </button>
+        {result.type === 'text' && (
+          <button type="button" className="btn" onClick={onClickCopy}>
+            Copy
+          </button>
+        )}
       </div>
       <div className={`h-full m-2 ${focusInput && 'flex-1'}`}>
-        <textarea
-          className="w-full h-full p-2 outline-none"
-          readOnly
-          value={result.value || ''}
-          onFocus={onFocusInputInverse}
-        />
+        {(result.type === 'text' || !result.type) && (
+          <textarea
+            className="w-full h-full p-2 outline-none"
+            readOnly
+            value={result.value || ''}
+            onFocus={onFocusInputInverse}
+          />
+        )}
+        {result.type === 'img' && <img src={`data:image/gif;base64,${result.imgValue}`} alt="Base64 file transform" />}
+        {result.type === 'unknown' && <div>File of type {result.mime}</div>}
       </div>
     </div>
   );

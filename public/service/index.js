@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 // eslint-disable-next-line no-param-reassign
 const fs = require('fs');
+const { filetypeinfo } = require('magic-bytes.js');
 
 const highlight = require('./highlight');
 const encodeDecode = require('./encode.decode');
@@ -60,7 +61,7 @@ const mapResult = (fn) => {
   }
 };
 
-const main = (ipcMain, dialog) => {
+const main = (ipcMain, dialog, mainWindow) => {
   ipcMain.on('query.copy', (event, text) => {
     copyWriteSync(text);
     event.returnValue = {};
@@ -78,21 +79,53 @@ const main = (ipcMain, dialog) => {
     event.returnValue = mapResult(() => encodeEntrypoint(arg.key, arg.value, arg.kind));
   });
 
-  ipcMain.on('query.encode.file', (event) => {
-    const files = dialog.showOpenDialogSync({
+  ipcMain.on('query.encode.file', (event, arg) => {
+    const files = dialog.showOpenDialogSync(mainWindow, {
       properties: ['openFile'],
     });
     if (!files || !files.length) {
       console.info('no file to query');
+      event.returnValue = { error: null, result: { value: null } };
       return;
     }
 
     const fileBuf = fs.readFileSync(files[0]);
     event.returnValue = mapResult(() => {
-      const res = fileBuf.toString('base64');
+      if (arg.encode) {
+        return {
+          type: 'text',
+          value: fileBuf.toString('base64'),
+          input: files[0],
+        };
+      }
+
+      const decodedBuf = Buffer.from(fileBuf.toString(), 'base64');
+      const typeInfos = filetypeinfo(decodedBuf);
+      if (!typeInfos || typeInfos.length === 0) {
+        return {
+          type: 'text',
+          value: decodedBuf.toString(),
+          input: files[0],
+        };
+      }
+
+      const typeInfo = typeInfos[0];
+      if (typeInfo.mime.indexOf('image') >= 0) {
+        return {
+          type: 'img',
+          value: decodedBuf,
+          imgValue: fileBuf.toString(),
+          mime: typeInfo.mime,
+          input: files[0],
+        };
+      }
+
       return {
-        type: 'file',
-        value: res,
+        type: 'unknown',
+        value: decodedBuf,
+        mime: typeInfo.mime,
+        extension: typeInfo.extension,
+        input: files[0],
       };
     });
   });
@@ -100,6 +133,19 @@ const main = (ipcMain, dialog) => {
   ipcMain.on('query.lorem', (event, arg) => {
     // eslint-disable-next-line no-param-reassign
     event.returnValue = mapResult(() => loremEntrypoint(arg.kind, arg.value));
+  });
+
+  ipcMain.on('query.download', async (event, args) => {
+    const filePath = await dialog.showSaveDialog(mainWindow, {
+      title: 'Select the file Path to save',
+      buttonLabel: 'Save',
+    });
+    if (!filePath.canceled) {
+      fs.writeFileSync(filePath.filePath.toString(), args);
+    } else {
+      console.error('Error with filepath');
+    }
+    event.returnValue = {};
   });
 };
 

@@ -10,6 +10,22 @@ The project is a kind of alternative of other proprietary apps (like DevUtils.ap
 - Release: `npm run release`
 - Run: `npm run start`
 
+# Commitlint
+
+Prefix for commit:
+
+- build
+- chore
+- ci
+- docs
+- feat
+- fix
+- perf
+- refactor
+- revert
+- style
+- test
+
 # TODO
 
 - add loader
@@ -17,7 +33,6 @@ The project is a kind of alternative of other proprietary apps (like DevUtils.ap
   - html
   - markdown
 - image manip?
-  - base64 html sample
   - resize
   - QRCode
 - hex

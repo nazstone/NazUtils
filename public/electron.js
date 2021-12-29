@@ -54,4 +54,4 @@ app.on('activate', () => {
   }
 });
 
-main(ipcMain, dialog);
+main(ipcMain, dialog, mainWindow);
