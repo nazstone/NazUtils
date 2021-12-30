@@ -56,13 +56,13 @@ const views = [
   },
 ];
 
-const CustomLink = ({ children, to, key }) => {
+const CustomLink = ({ children, to }) => {
   const resolved = useResolvedPath(to);
   const match = useMatch({ path: resolved.pathname, end: true });
 
   return (
     <Link
-      key={key}
+      key={to}
       className={match ? 'bg-green-100 no-underline text-xl font-medium px-2' : 'no-underline text-lg px-2'}
       to={to}
     >
@@ -74,7 +74,6 @@ const CustomLink = ({ children, to, key }) => {
 CustomLink.propTypes = {
   children: PropTypes.node.isRequired,
   to: PropTypes.string.isRequired,
-  key: PropTypes.string.isRequired,
 };
 
 function App() {
