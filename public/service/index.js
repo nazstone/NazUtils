@@ -10,6 +10,7 @@ const { format } = require('./format');
 const { signPayload, extractHeaderPayloadSignature, mapAlgo } = require('./jwt');
 const loremIpsum = require('./loremipsum');
 const { copyWriteSync } = require('./copy');
+const swaggerLocal = require('./swagger.local');
 
 const formatEntrypoint = (input, kind, extra) => {
   let result;
@@ -78,6 +79,8 @@ const main = (ipcMain, dialog, mainWindow) => {
   ipcMain.on('query.encode', (event, arg) => {
     event.returnValue = mapResult(() => encodeEntrypoint(arg.key, arg.value, arg.kind));
   });
+
+  ipcMain.on('query.local.swagger', swaggerLocal(dialog, mainWindow));
 
   ipcMain.on('query.encode.file', (event, arg) => {
     const files = dialog.showOpenDialogSync(mainWindow, {

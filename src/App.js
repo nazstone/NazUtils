@@ -81,7 +81,8 @@ function App() {
   const [regex, setRegex] = useState(regexDefault);
   const [lorem, setLorem] = useState(loremDefault);
   const [jwt, setJwt] = useState(jwtDefault);
-  const contextValue = { regex, setRegex, lorem, setLorem, jwt, setJwt };
+  const [swagger, setSwagger] = useState({ url: '' });
+  const contextValue = { regex, setRegex, lorem, setLorem, jwt, setJwt, swagger, setSwagger };
 
   const [hideMenu, setHideMenu] = useState(false);
   const onClickHide = () => {
