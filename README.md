@@ -37,4 +37,3 @@ Prefix for commit:
   - QRCode
 - hex
 - color
-- swagger local file
